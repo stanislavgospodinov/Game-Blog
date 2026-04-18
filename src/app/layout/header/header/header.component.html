@@ -1,0 +1,19 @@
+<header class="site-header">
+  <div class="container header-container">
+    <a routerLink="/" class="logo">Game Blog</a>
+
+    <nav class="main-nav">
+      <a routerLink="/">Home</a>
+      <a routerLink="/posts">Posts</a>
+
+      @if (!user$) {
+        <a routerLink="/dashboard">Dashboard</a>
+        <a routerLink="/create">Create Post</a>
+        <button type="button" class="logout-btn" (click)="logout()">Logout</button>
+      } @else {
+        <a routerLink="/login">Login</a>
+        <a routerLink="/register">Register</a>
+      }
+    </nav>
+  </div>
+</header>
