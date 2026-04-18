@@ -1,0 +1,38 @@
+<section class="catalog-section">
+  <div class="container">
+    <div class="section-heading">
+      <h1>Game Posts</h1>
+      <p>Explore articles, opinions, and gaming recommendations from the community.</p>
+    </div>
+
+    @if (posts.length > 0) {
+      <div class="posts-grid">
+        @for (post of posts; track post.id) {
+          <article class="post-card">
+            <div class="image-wrapper">
+              <img [src]="post.imageUrl" [alt]="post.title" />
+            </div>
+
+            <div class="post-content">
+              <span class="post-category">{{ post.category }}</span>
+              <h2>{{ post.title }}</h2>
+              <p class="summary">{{ post.summary }}</p>
+
+              <div class="meta">
+                <span>By {{ post.authorUsername }}</span>
+                <span>{{ post.createdAt }}</span>
+              </div>
+
+              <a [routerLink]="['/posts', post.id]" class="details-btn">Read More</a>
+            </div>
+          </article>
+        }
+      </div>
+    } @else {
+      <div class="empty-state">
+        <h2>No posts yet</h2>
+        <p>There are no published posts at the moment.</p>
+      </div>
+    }
+  </div>
+</section>
