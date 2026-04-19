@@ -22,6 +22,7 @@ function passwordMatchValidator(
 
 @Component({
   selector: 'app-register',
+  standalone: true,
   imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css',
@@ -37,9 +38,23 @@ export class RegisterComponent {
 
   form = this.fb.nonNullable.group(
     {
-      username: ['', [Validators.required, Validators.minLength(5)]],
+      username: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(5),
+          Validators.pattern(/^[^\s].*$/),
+        ],
+      ],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      password: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(6),
+          Validators.pattern(/^\S+$/),
+        ],
+      ],
       rePassword: ['', [Validators.required]],
     },
     {
@@ -58,13 +73,15 @@ export class RegisterComponent {
 
     const { username, email, password } = this.form.getRawValue();
 
+    const cleanUsername = username.trim();
+
     try {
       const credentials = await this.authService.register(email, password);
 
       const userData: AppUser = {
         uid: credentials.user.uid,
         email: credentials.user.email ?? email,
-        username,
+        username: cleanUsername,
         profileImageUrl: '',
         createdAt: new Date().toISOString(),
         posts: [],

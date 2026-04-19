@@ -3,16 +3,16 @@
     <a routerLink="/" class="logo">Game Blog</a>
 
     <nav class="main-nav">
-      <a routerLink="/">Home</a>
-      <a routerLink="/catalog">Catalog</a>
+      <a routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+      <a routerLink="/posts" routerLinkActive="active-link">Posts</a>
 
-      @if (!user$) {
-        <a routerLink="/dashboard">Dashboard</a>
-        <a routerLink="/create">Create Post</a>
+      @if (user$ | async; as user) {
+        <a routerLink="/dashboard" routerLinkActive="active-link">Dashboard</a>
+        <a routerLink="/create" routerLinkActive="active-link">Create Post</a>
         <button type="button" class="logout-btn" (click)="logout()">Logout</button>
       } @else {
-        <a routerLink="/login">Login</a>
-        <a routerLink="/register">Register</a>
+        <a routerLink="/login" routerLinkActive="active-link">Login</a>
+        <a routerLink="/register" routerLinkActive="active-link">Register</a>
       }
     </nav>
   </div>

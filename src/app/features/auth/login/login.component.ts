@@ -5,6 +5,7 @@ import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-login',
+  standalone: true,
   imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
@@ -15,7 +16,7 @@ export class LoginComponent {
   private router = inject(Router);
 
   errorMessage = '';
-  isSubmiting = false;
+  isSubmitting = false;
 
   form = this.fb.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],
@@ -28,7 +29,7 @@ export class LoginComponent {
       return;
     }
     this.errorMessage = '';
-    this.isSubmiting = true;
+    this.isSubmitting = true;
 
     const { email, password } = this.form.getRawValue();
 
@@ -38,7 +39,7 @@ export class LoginComponent {
     } catch (error: unknown) {
       this.errorMessage = this.getFirebaseErrorMessage(error);
     } finally {
-      this.isSubmiting = false;
+      this.isSubmitting = false;
     }
   }
 

@@ -6,53 +6,105 @@
     <form [formGroup]="form" (ngSubmit)="submit()" class="auth-form">
       <div class="form-group">
         <label for="username">Username</label>
-        <input id="username" type="text" formControlName="username" placeholder="Enter username" />
+        <input
+          id="username"
+          type="text"
+          formControlName="username"
+          placeholder="Enter username"
+        />
 
-        @if (form.controls.username.touched && form.controls.username.errors?.['required']) {
+        @if (
+          form.controls.username.touched &&
+          form.controls.username.errors?.["required"]
+        ) {
           <p class="error-text">Username is required.</p>
         }
 
-        @if (form.controls.username.touched && form.controls.username.errors?.['minlength']) {
+        @if (
+          form.controls.username.touched &&
+          form.controls.username.errors?.["minlength"]
+        ) {
           <p class="error-text">Username must be at least 3 characters long.</p>
+        }
+        @if (
+          form.controls.username.touched &&
+          form.controls.username.errors?.["pattern"]
+        ) {
+          <p class="error-text">Username cannot start with a space.</p>
         }
       </div>
 
       <div class="form-group">
         <label for="email">Email</label>
-        <input id="email" type="email" formControlName="email" placeholder="Enter your email" />
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          placeholder="Enter your email"
+        />
 
-        @if (form.controls.email.touched && form.controls.email.errors?.['required']) {
+        @if (
+          form.controls.email.touched &&
+          form.controls.email.errors?.["required"]
+        ) {
           <p class="error-text">Email is required.</p>
         }
 
-        @if (form.controls.email.touched && form.controls.email.errors?.['email']) {
+        @if (
+          form.controls.email.touched && form.controls.email.errors?.["email"]
+        ) {
           <p class="error-text">Please enter a valid email.</p>
+        }
+        @if (
+          form.controls.password.touched &&
+          form.controls.password.errors?.["pattern"]
+        ) {
+          <p class="error-text">Password cannot contain spaces.</p>
         }
       </div>
 
       <div class="form-group">
         <label for="password">Password</label>
-        <input id="password" type="password" formControlName="password" placeholder="Create a password" />
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          placeholder="Create a password"
+        />
 
-        @if (form.controls.password.touched && form.controls.password.errors?.['required']) {
+        @if (
+          form.controls.password.touched &&
+          form.controls.password.errors?.["required"]
+        ) {
           <p class="error-text">Password is required.</p>
         }
 
-        @if (form.controls.password.touched && form.controls.password.errors?.['minlength']) {
+        @if (
+          form.controls.password.touched &&
+          form.controls.password.errors?.["minlength"]
+        ) {
           <p class="error-text">Password must be at least 6 characters long.</p>
         }
       </div>
 
       <div class="form-group">
         <label for="rePassword">Repeat Password</label>
-        <input id="rePassword" type="password" formControlName="rePassword" placeholder="Repeat your password" />
+        <input
+          id="rePassword"
+          type="password"
+          formControlName="rePassword"
+          placeholder="Repeat your password"
+        />
 
-        @if (form.controls.rePassword.touched && form.controls.rePassword.errors?.['required']) {
+        @if (
+          form.controls.rePassword.touched &&
+          form.controls.rePassword.errors?.["required"]
+        ) {
           <p class="error-text">Repeat password is required.</p>
         }
       </div>
 
-      @if (form.touched && form.errors?.['passwordMismatch']) {
+      @if (form.touched && form.errors?.["passwordMismatch"]) {
         <p class="error-text">Passwords do not match.</p>
       }
 
@@ -61,7 +113,7 @@
       }
 
       <button type="submit" class="submit-btn" [disabled]="isSubmitting">
-        {{ isSubmitting ? 'Creating account...' : 'Register' }}
+        {{ isSubmitting ? "Creating account..." : "Register" }}
       </button>
     </form>
 
