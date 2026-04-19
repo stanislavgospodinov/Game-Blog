@@ -1,0 +1,48 @@
+<section class="details-section">
+  <div class="container">
+    @if (post$ | async; as post) {
+      <article class="details-card">
+        <div class="details-image">
+          <img [src]="post.imageUrl" [alt]="post.title" />
+        </div>
+
+        <div class="details-content">
+          <div class="details-top">
+            <span class="category">{{ post.category }}</span>
+            <h1>{{ post.title }}</h1>
+            <p class="summary">{{ post.summary }}</p>
+          </div>
+
+          <div class="meta">
+            <span><strong>Author:</strong> {{ post.authorUsername }}</span>
+            <span><strong>Email:</strong> {{ post.authorEmail }}</span>
+            <span><strong>Created:</strong> {{ post.createdAt }}</span>
+
+            @if (post.updatedAt) {
+              <span><strong>Updated:</strong> {{ post.updatedAt }}</span>
+            }
+          </div>
+
+          <div class="content">
+            <p>{{ post.content }}</p>
+          </div>
+
+          @if (isOwner(post) && post.id) {
+            <div class="actions">
+              <a [routerLink]="['/edit', post.id]" class="edit-btn">Edit</a>
+              <button type="button" class="delete-btn" (click)="onDelete(post.id, post.authorId)">
+                Delete
+              </button>
+            </div>
+          }
+        </div>
+      </article>
+    } @else {
+      <div class="not-found">
+        <h2>Post not found</h2>
+        <p>The post you are looking for does not exist or was removed.</p>
+        <a routerLink="/posts" class="back-btn">Back to Posts</a>
+      </div>
+    }
+  </div>
+</section>
