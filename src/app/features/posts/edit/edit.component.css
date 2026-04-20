@@ -1,0 +1,133 @@
+.edit-section {
+  padding: 3rem 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.edit-card {
+  width: 100%;
+  max-width: 42rem;
+  padding: 2rem;
+  border: 1px solid #1e293b;
+  border-radius: 1rem;
+  background-color: #111827;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+.edit-card h1 {
+  margin: 0 0 0.5rem;
+  color: #f8fafc;
+  text-align: center;
+}
+
+.subtitle {
+  margin: 0 0 1.5rem;
+  color: #94a3b8;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.form-group label {
+  color: #e2e8f0;
+  font-weight: 600;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 0.85rem 1rem;
+  border: 1px solid #334155;
+  border-radius: 0.75rem;
+  background-color: #0f172a;
+  color: #f8fafc;
+  outline: none;
+  font: inherit;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: #2563eb;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 7rem;
+}
+
+.error-text {
+  margin: 0;
+  color: #fca5a5;
+  font-size: 0.9rem;
+}
+
+.server-error {
+  margin: 0;
+  padding: 0.8rem 1rem;
+  border: 1px solid #7f1d1d;
+  border-radius: 0.75rem;
+  background-color: rgba(127, 29, 29, 0.2);
+  color: #fecaca;
+  font-size: 0.95rem;
+}
+
+.info-box {
+  padding: 2rem;
+  text-align: center;
+  border: 1px dashed #334155;
+  border-radius: 1rem;
+  background-color: rgba(15, 23, 42, 0.5);
+  color: #cbd5e1;
+}
+
+.error-box {
+  border-color: #7f1d1d;
+  color: #fecaca;
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+
+.submit-btn,
+.cancel-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.9rem 1rem;
+  border-radius: 0.75rem;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.submit-btn {
+  border: none;
+  background-color: #2563eb;
+  color: #fff;
+  cursor: pointer;
+}
+
+.submit-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.cancel-btn {
+  background-color: #374151;
+  color: #fff;
+}
