@@ -1,0 +1,43 @@
+<section class="dashboard-section">
+  <div class="container">
+    <div class="dashboard-header">
+      <h1>My Dashboard</h1>
+      <p>Manage all posts created by you.</p>
+    </div>
+
+    @if (posts$ | async; as posts) {
+      @if (posts.length > 0) {
+        <div class="posts-grid">
+          @for (post of posts; track post.id) {
+            <article class="post-card">
+              <div class="image-wrapper">
+                <img [src]="post.imageUrl" [alt]="post.title" />
+              </div>
+
+              <div class="post-content">
+                <span class="post-category">{{ post.category }}</span>
+                <h2>{{ post.title }}</h2>
+                <p class="summary">{{ post.summary }}</p>
+
+                <div class="meta">
+                  <span>{{ post.createdAt }}</span>
+                </div>
+
+                <div class="actions">
+                  <a [routerLink]="['/posts', post.id]" class="details-btn">Details</a>
+                  <a [routerLink]="['/edit', post.id]" class="edit-btn">Edit</a>
+                </div>
+              </div>
+            </article>
+          }
+        </div>
+      } @else {
+        <div class="info-box">
+          <h2>No posts yet</h2>
+          <p>You have not created any posts yet.</p>
+          <a routerLink="/create" class="action-btn">Create your first post</a>
+        </div>
+      }
+    }
+  </div>
+</section>
