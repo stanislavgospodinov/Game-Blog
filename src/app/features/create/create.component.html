@@ -1,0 +1,81 @@
+<section class="create-section">
+  <div class="create-card">
+    <h1>Create Post</h1>
+    <p class="subtitle">Share a new game article with the community.</p>
+
+    <form [formGroup]="form" (ngSubmit)="submit()" class="create-form">
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input id="title" type="text" formControlName="title" placeholder="Enter post title" />
+
+        @if (form.controls.title.touched && form.controls.title.errors?.['required']) {
+          <p class="error-text">Title is required.</p>
+        }
+        @if (form.controls.title.touched && form.controls.title.errors?.['minlength']) {
+          <p class="error-text">Title must be at least 3 characters long.</p>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="category">Category</label>
+        <select id="category" formControlName="category">
+          <option value="">Select category</option>
+          <option value="Action">Action</option>
+          <option value="Adventure">Adventure</option>
+          <option value="RPG">RPG</option>
+          <option value="Racing">Racing</option>
+          <option value="FPS">FPS</option>
+          <option value="Strategy">Strategy</option>
+          <option value="Indie">Indie</option>
+          <option value="Sports">Sports</option>
+          <option value="Horror">Horror</option>
+        </select>
+
+        @if (form.controls.category.touched && form.controls.category.errors?.['required']) {
+          <p class="error-text">Category is required.</p>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="imageUrl">Image URL</label>
+        <input id="imageUrl" type="text" formControlName="imageUrl" placeholder="Paste image URL" />
+
+        @if (form.controls.imageUrl.touched && form.controls.imageUrl.errors?.['required']) {
+          <p class="error-text">Image URL is required.</p>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="summary">Summary</label>
+        <textarea id="summary" rows="4" formControlName="summary" placeholder="Short summary"></textarea>
+
+        @if (form.controls.summary.touched && form.controls.summary.errors?.['required']) {
+          <p class="error-text">Summary is required.</p>
+        }
+        @if (form.controls.summary.touched && form.controls.summary.errors?.['minlength']) {
+          <p class="error-text">Summary must be at least 10 characters long.</p>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="content">Content</label>
+        <textarea id="content" rows="8" formControlName="content" placeholder="Write full post content"></textarea>
+
+        @if (form.controls.content.touched && form.controls.content.errors?.['required']) {
+          <p class="error-text">Content is required.</p>
+        }
+        @if (form.controls.content.touched && form.controls.content.errors?.['minlength']) {
+          <p class="error-text">Content must be at least 50 characters long.</p>
+        }
+      </div>
+
+      @if (errorMessage) {
+        <p class="server-error">{{ errorMessage }}</p>
+      }
+
+      <button type="submit" class="submit-btn" [disabled]="isSubmitting">
+        {{ isSubmitting ? 'Creating...' : 'Create Post' }}
+      </button>
+    </form>
+  </div>
+</section>
