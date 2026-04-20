@@ -9,5 +9,5 @@ export interface Post {
   authorUsername: string;
   authorEmail: string;
   createdAt: string;
-  updatedAt: string;
+  updatedAt?: string;
 }

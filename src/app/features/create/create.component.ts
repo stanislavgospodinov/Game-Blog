@@ -1,19 +1,20 @@
 import { Component, inject } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { PostService } from '../../core/services/post.service';
 import { AuthService } from '../../core/services/auth.service';
 import { UserService } from '../../core/services/user.service';
 import { Post } from '../../shared/interfaces/posts';
+import { PostFormValue } from '../../shared/interfaces/post-form-value';
+import { PostFormComponent } from '../../shared/post-form/post-form.component';
 
 @Component({
   selector: 'app-create',
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [PostFormComponent],
   templateUrl: './create.component.html',
   styleUrl: './create.component.css',
 })
 export class CreateComponent {
-  private fb = inject(FormBuilder);
+
   private postsService = inject(PostService);
   private authService = inject(AuthService);
   private userService = inject(UserService);
@@ -22,20 +23,7 @@ export class CreateComponent {
   errorMessage = '';
   isSubmitting = false;
 
-  form = this.fb.nonNullable.group({
-    title: ['', [Validators.required, Validators.minLength(3)]],
-    category: ['', [Validators.required]],
-    imageUrl: ['', [Validators.required]],
-    summary: ['', [Validators.required, Validators.minLength(10)]],
-    content: ['', [Validators.required, Validators.minLength(50)]],
-  });
-
-  async submit(): Promise<void> {
-    if (this.form.invalid) {
-      this.form.markAllAsTouched();
-      return;
-    }
-
+  async onCreate(formData: PostFormValue): Promise<void> {
     const currentUser = this.authService.currentUser;
 
     if (!currentUser) {
@@ -46,9 +34,6 @@ export class CreateComponent {
     this.errorMessage = '';
     this.isSubmitting = true;
 
-    const { title, category, imageUrl, summary, content } =
-      this.form.getRawValue();
-
     try {
       const userProfile = await this.userService.getUserById(currentUser.uid);
 
@@ -58,16 +43,15 @@ export class CreateComponent {
       }
 
       const postData: Post = {
-        title: title.trim(),
-        category,
-        imageUrl: imageUrl.trim(),
-        summary: summary.trim(),
-        content: content.trim(),
+        title: formData.title.trim(),
+        category: formData.category,
+        imageUrl: formData.imageUrl.trim(),
+        summary: formData.summary.trim(),
+        content: formData.content.trim(),
         authorId: currentUser.uid,
         authorUsername: userProfile.username,
         authorEmail: currentUser.email ?? userProfile.email,
         createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
       };
 
       const docRef = await this.postsService.create(postData);
@@ -75,7 +59,7 @@ export class CreateComponent {
 
       this.router.navigate(['/posts', docRef.id]);
     } catch (error: unknown) {
-      console.error('Error creating post:', error);
+      console.error('Create post error:', error);
       this.errorMessage = this.getErrorMessage(error);
     } finally {
       this.isSubmitting = false;

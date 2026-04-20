@@ -1,35 +1,28 @@
 import { Component, inject } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { PostService } from '../../../core/services/post.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { switchMap, take } from 'rxjs';
+import { PostFormComponent } from '../../../shared/post-form/post-form.component';
+import { PostFormValue } from '../../../shared/interfaces/post-form-value';
 
 @Component({
   selector: 'app-edit',
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [PostFormComponent, RouterLink],
   templateUrl: './edit.component.html',
   styleUrl: './edit.component.css',
 })
 export class EditComponent {
-  private fb = inject(FormBuilder);
   private postsService = inject(PostService);
   private authService = inject(AuthService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
 
   postId = '';
+  postData: PostFormValue | null = null;
   isLoading = true;
   isSubmitting = false;
   errorMessage = '';
-
-  form = this.fb.nonNullable.group({
-    title: ['', [Validators.required, Validators.minLength(3)]],
-    category: ['', [Validators.required]],
-    imageUrl: ['', [Validators.required]],
-    summary: ['', [Validators.required, Validators.minLength(10)]],
-    content: ['', [Validators.required, Validators.minLength(50)]],
-  });
 
   ngOnInit(): void {
     this.route.paramMap
@@ -42,7 +35,7 @@ export class EditComponent {
         }),
       )
       .subscribe({
-        next: (post) => {
+        next: post => {
           if (!post) {
             this.errorMessage = 'Post not found.';
             this.isLoading = false;
@@ -56,13 +49,13 @@ export class EditComponent {
             return;
           }
 
-          this.form.patchValue({
+          this.postData = {
             title: post.title,
             category: post.category,
             imageUrl: post.imageUrl,
             summary: post.summary,
             content: post.content,
-          });
+          };
 
           this.isLoading = false;
         },
@@ -74,12 +67,7 @@ export class EditComponent {
       });
   }
 
-  async submit(): Promise<void> {
-    if (this.form.invalid) {
-      this.form.markAllAsTouched();
-      return;
-    }
-
+  async onEdit(formData: PostFormValue): Promise<void> {
     const currentUser = this.authService.currentUser;
 
     if (!currentUser) {
@@ -90,16 +78,13 @@ export class EditComponent {
     this.errorMessage = '';
     this.isSubmitting = true;
 
-    const { title, category, imageUrl, summary, content } =
-      this.form.getRawValue();
-
     try {
       await this.postsService.update(this.postId, {
-        title: title.trim(),
-        category: category.trim(),
-        imageUrl: imageUrl.trim(),
-        summary: summary.trim(),
-        content: content.trim(),
+        title: formData.title.trim(),
+        category: formData.category.trim(),
+        imageUrl: formData.imageUrl.trim(),
+        summary: formData.summary.trim(),
+        content: formData.content.trim(),
         updatedAt: new Date().toISOString(),
       });
 
