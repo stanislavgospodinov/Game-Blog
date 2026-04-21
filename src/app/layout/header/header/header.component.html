@@ -4,7 +4,7 @@
 
     <nav class="main-nav">
       <a routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">Home</a>
-      <a routerLink="/posts" routerLinkActive="active-link">Posts</a>
+      <a routerLink="/posts" >Posts</a>
 
       @if (user$ | async; as user) {
         <a routerLink="/dashboard" routerLinkActive="active-link">Dashboard</a>

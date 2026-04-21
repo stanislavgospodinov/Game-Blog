@@ -10,8 +10,8 @@ export interface Post {
   authorId: string;
   authorUsername: string;
   authorEmail: string;
-  createdAt: Timestamp;
-  updatedAt?: Timestamp;
+  createdAt: Date | null;
+  updatedAt?: Date | null;
 }
 
 export type PostWriteData = Omit<Post, 'id' | 'createdAt' | 'updatedAt'> & {

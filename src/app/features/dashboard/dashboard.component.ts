@@ -1,4 +1,4 @@
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, DatePipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
@@ -7,7 +7,7 @@ import { of, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [AsyncPipe, RouterLink],
+  imports: [AsyncPipe, RouterLink, DatePipe],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
 })

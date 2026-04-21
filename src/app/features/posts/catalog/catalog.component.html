@@ -1,3 +1,4 @@
+
 <section class="catalog-section">
   <div class="container">
     <div class="section-heading">
@@ -30,11 +31,11 @@
               <div class="post-content">
                 <span class="post-category">{{ post.category }}</span>
                 <h2>{{ post.title }}</h2>
-                <p class="summary">{{ post.summary }}</p>
+                <p class="summary">{{ post.summary | truncate:120 }}</p>
 
                 <div class="meta">
                   <span>By {{ post.authorUsername }}</span>
-                  <span>{{ post.createdAt?.toDate() | date:'medium' }}</span>
+                  <span>{{ post.createdAt | date:'medium' }}</span>
                 </div>
 
                 <a [routerLink]="['/posts', post.id]" class="details-btn">Read More</a>
