@@ -1,3 +1,5 @@
+import { FieldValue, Timestamp } from 'firebase/firestore';
+
 export interface Post {
   id?: string;
   title: string;
@@ -8,6 +10,11 @@ export interface Post {
   authorId: string;
   authorUsername: string;
   authorEmail: string;
-  createdAt: string;
-  updatedAt?: string;
+  createdAt: Timestamp;
+  updatedAt?: Timestamp;
 }
+
+export type PostWriteData = Omit<Post, 'id' | 'createdAt' | 'updatedAt'> & {
+  createdAt: Timestamp | FieldValue;
+  updatedAt?: Timestamp | FieldValue;
+};

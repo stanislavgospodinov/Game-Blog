@@ -10,9 +10,10 @@ import {
   deleteDoc,
   query,
   where,
+  orderBy,
 } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
-import { Post } from '../../shared/interfaces/posts';
+import { Post, PostWriteData } from '../../shared/interfaces/posts';
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +23,8 @@ export class PostService {
   private postsCollection = collection(this.firestore, 'posts');
 
   getAll(): Observable<Post[]> {
-    return collectionData(this.postsCollection, { idField: 'id' }) as Observable<Post[]>;
+    const q = query(this.postsCollection, orderBy('createdAt', 'desc'));
+    return collectionData(q, { idField: 'id' }) as Observable<Post[]>;
   }
 
   getById(id: string): Observable<Post | undefined> {
@@ -35,11 +37,11 @@ export class PostService {
     return collectionData(q, { idField: 'id' }) as Observable<Post[]>;
   }
 
-  create(post: Post) {
+  create(post: PostWriteData) {
     return addDoc(this.postsCollection, post);
   }
 
-  update(id: string, data: Partial<Post>) {
+  update(id: string, data: Partial<PostWriteData>) {
     const postDoc = doc(this.firestore, `posts/${id}`);
     return updateDoc(postDoc, data);
   }

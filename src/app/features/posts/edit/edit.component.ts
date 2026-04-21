@@ -5,6 +5,7 @@ import { AuthService } from '../../../core/services/auth.service';
 import { switchMap, take } from 'rxjs';
 import { PostFormComponent } from '../../../shared/post-form/post-form.component';
 import { PostFormValue } from '../../../shared/interfaces/post-form-value';
+import { serverTimestamp } from 'firebase/firestore';
 
 @Component({
   selector: 'app-edit',
@@ -85,7 +86,7 @@ export class EditComponent {
         imageUrl: formData.imageUrl.trim(),
         summary: formData.summary.trim(),
         content: formData.content.trim(),
-        updatedAt: new Date().toISOString(),
+        updatedAt: serverTimestamp(),
       });
 
       this.router.navigate(['/posts', this.postId]);

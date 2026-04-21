@@ -5,6 +5,7 @@ import { PostService } from '../../../core/services/post.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { map, Observable, switchMap } from 'rxjs';
 import { Post } from '../../../shared/interfaces/posts';
+import { UserService } from '../../../core/services/user.service';
 
 @Component({
   selector: 'app-details',
@@ -16,6 +17,7 @@ export class DetailsComponent {
   private route = inject(ActivatedRoute);
   private postsService = inject(PostService);
   private authService = inject(AuthService);
+  private userService = inject(UserService);
   private router = inject(Router);
 
   post$: Observable<Post | undefined> = this.route.paramMap.pipe(
@@ -40,6 +42,7 @@ export class DetailsComponent {
 
     try {
       await this.postsService.delete(postId);
+      await this.userService.removePostFromUser(authorId, postId);
       this.router.navigate(['/posts']);
     } catch (error) {
       console.error('Delete error:', error);

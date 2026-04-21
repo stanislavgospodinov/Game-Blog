@@ -3,9 +3,10 @@ import { Router } from '@angular/router';
 import { PostService } from '../../core/services/post.service';
 import { AuthService } from '../../core/services/auth.service';
 import { UserService } from '../../core/services/user.service';
-import { Post } from '../../shared/interfaces/posts';
+import { PostWriteData } from '../../shared/interfaces/posts';
 import { PostFormValue } from '../../shared/interfaces/post-form-value';
 import { PostFormComponent } from '../../shared/post-form/post-form.component';
+import { serverTimestamp } from 'firebase/firestore';
 
 @Component({
   selector: 'app-create',
@@ -42,7 +43,7 @@ export class CreateComponent {
         return;
       }
 
-      const postData: Post = {
+      const postData: PostWriteData = {
         title: formData.title.trim(),
         category: formData.category,
         imageUrl: formData.imageUrl.trim(),
@@ -51,7 +52,7 @@ export class CreateComponent {
         authorId: currentUser.uid,
         authorUsername: userProfile.username,
         authorEmail: currentUser.email ?? userProfile.email,
-        createdAt: new Date().toISOString(),
+        createdAt: serverTimestamp(),
       };
 
       const docRef = await this.postsService.create(postData);

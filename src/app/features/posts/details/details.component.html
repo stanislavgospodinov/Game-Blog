@@ -16,10 +16,10 @@
           <div class="meta">
             <span><strong>Author:</strong> {{ post.authorUsername }}</span>
             <span><strong>Email:</strong> {{ post.authorEmail }}</span>
-            <span><strong>Created:</strong> {{ post.createdAt }}</span>
+            <span><strong>Created:</strong> {{ post.createdAt?.toDate() | date: 'medium' }}</span>
 
             @if (post.updatedAt) {
-              <span><strong>Updated:</strong> {{ post.updatedAt }}</span>
+              <span><strong>Updated:</strong> {{ post.updatedAt?.toDate() | date: 'medium' }}</span>
             }
           </div>
 

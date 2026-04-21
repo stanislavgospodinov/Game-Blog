@@ -5,10 +5,23 @@
       <p>Explore articles, opinions, and gaming recommendations from the community.</p>
     </div>
 
-    @if (posts$ | async; as posts) {
-      @if (posts.length > 0) {
+    @if (state$ | async; as state) {
+      @if (state.isLoading) {
+        <div class="info-box">
+          <p>Loading posts...</p>
+        </div>
+      } @else if (state.error) {
+        <div class="info-box error-box">
+          <p>{{ state.error }}</p>
+        </div>
+      } @else if (state.posts.length === 0) {
+        <div class="info-box">
+          <h2>No posts yet</h2>
+          <p>There are no published posts at the moment.</p>
+        </div>
+      } @else {
         <div class="posts-grid">
-          @for (post of posts; track post.id) {
+          @for (post of state.posts; track post.id) {
             <article class="post-card">
               <div class="image-wrapper">
                 <img [src]="post.imageUrl" [alt]="post.title" />
@@ -21,18 +34,13 @@
 
                 <div class="meta">
                   <span>By {{ post.authorUsername }}</span>
-                  <span>{{ post.createdAt }}</span>
+                  <span>{{ post.createdAt?.toDate() | date:'medium' }}</span>
                 </div>
 
                 <a [routerLink]="['/posts', post.id]" class="details-btn">Read More</a>
               </div>
             </article>
           }
-        </div>
-      } @else {
-        <div class="empty-state">
-          <h2>No posts yet</h2>
-          <p>There are no published posts at the moment.</p>
         </div>
       }
     }
